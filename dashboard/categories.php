@@ -27,7 +27,7 @@ require('dbconnect.php');
                                 <?php 
                                 if(isset($_POST['submit']))
                                 {
-                                    $name=trim($_POST['name']);
+                                    $name=trim(($_POST['name']));
                                     $description=trim(($_POST['description']));
                                     $errors=array();
                                     if(empty($name))
@@ -40,7 +40,7 @@ require('dbconnect.php');
                                     }
                                     else 
                                     {
-                                        $sql="insert into category (name,description) values ($name, $description) ";
+                                        $sql="INSERT INTO category (name,description) VALUES ('$name','$description') ";
                                         
                                         if(mysqli_query($con,$sql))
                                         {
@@ -108,9 +108,9 @@ require('dbconnect.php');
                                             </thead>
                                             <tbody>
                                             <?php 
-                                           $stm= ("select * from categories");
+                                           $stm= "SELECT * FROM category";
                                            #$res= mysql_function($con,$stm);
-                                           #$res= mysqli_query($con,$stm);
+                                           $res= mysqli_query($con,$stm);
                                            echo(" 
                                            <span class='caret'></span></a>
                              
@@ -118,9 +118,9 @@ require('dbconnect.php');
                                              <div class='notification-div'>
                                                <ul class='notification-points'> ") ; 
 
-                                           if(mysqli_num_rows($res) > 0 )
+                                           if(mysqli_num_rows($res))
                                             {
-                                                while ( $row = mysqli_fetch_array($res) )
+                                                while ($row=mysqli_fetch_assoc($res))
                                                 {
                                                     $id=$row['id'];
                                                     $name=$row['name'];
@@ -134,7 +134,7 @@ require('dbconnect.php');
                                                     <td><?php  echo $description ?></td>
                                                     <td>
                                                         <a href="" class='btn btn-success'>Edit</a>
-                                                        <a href="" class='btn btn-danger'>Delete</a>
+                                                        <a id="delete" class='btn btn-danger' >Delete</a>
                                                     </td>
                                                 </tr>
                                    <?php 
@@ -164,6 +164,34 @@ require('dbconnect.php');
    ?>
    <script>
    $('#delete').click (function () {
-	   return confirm("are you sure ! " ) ;
+      return confirm("are you sure !" ) ;
+      <?php
+  /*  session_start();
+    
+
+
+    $productId = $_GET['id'] ; 
+    
+
+    include 'connectDB.php' ;
+    
+    $userId = $_SESSION['id'];
+    $query = "DELETE FROM `ITEM` WHERE ID = $productId"; // path is where the image will be saved 
+
+    
+    if(mysqli_query($con,$query)){
+        mysqli_close($con);
+        // header("location : profile.php"); // so the page will refresh
+    }
+   
+    else{
+        echo("Error description: " . mysqli_error($con));
+        mysqli_close($con);
+        // header("location: add-item.php?error=Try Again"); // so the page will refresh
+    }*/
+    
+?>
+
+
    }) ;
    </script>
